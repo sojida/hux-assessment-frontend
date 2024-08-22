@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import Contacts from './pages/Contacts';
 import Contact from './pages/Contact';
 import ViewContact from './pages/ViewContact';
+import NotFound from './pages/NotFound';
 
 
 const Router = () => {
@@ -21,6 +22,7 @@ const Router = () => {
         <ProtectedRoute path="/contacts/:contactId/edit" exact component={Contact} layout={MainLayout} />
         <ProtectedRoute path="/contacts/create" exact component={Contact} layout={MainLayout} />
         <ProtectedRoute path="/contacts/:contactId/view" exact component={ViewContact} layout={MainLayout} />
+        <Route path="/not-found" exact component={NotFound} />
         <Redirect to="/not-found" />
     </Switch>
   )

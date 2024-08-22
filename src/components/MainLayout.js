@@ -26,16 +26,7 @@ const Topbar = (props) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="success">
         <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography onClick={navigateToLists} variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Kontactly
           </Typography>
           <Button onClick={navigateToCreateContact} color="inherit">Create Contact</Button>
@@ -52,11 +43,18 @@ const MainLayout = (props) => {
   const { children } = props;
 
   return (
-    <div>
+    <div className="main-layout">
       <Topbar history={children.props.history} />
       <main>
         {children}
       </main>
+      <Box sx={{ backgroundColor: '#2E7D32', bottom: 0, width: '100%', display: 'grid', placeItems: 'center', color: "white" }}>
+      <Typography variant="body1">
+        &copy;{' '}
+        Kontactly 2024
+      </Typography>
+
+      </Box>
     </div>
   );
 };

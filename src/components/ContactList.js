@@ -2,6 +2,7 @@ import * as React from "react";
 import ImageIcon from "@mui/icons-material/Image";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import toast from "react-hot-toast";
 import { DeleteContact } from "../apis/Contacts";
 import {
@@ -85,6 +86,11 @@ export default function ContactList({
     setOpen(true);
   };
 
+  const copyContact = (contact) => {
+    toast.success('contact copied!')
+    navigator.clipboard.writeText(contact.phoneNumber)
+  };
+
   const handleYes = async () => {
     setLoading(true);
     const response = await DeleteContact({ contactId: selectedContact._id });
@@ -114,6 +120,7 @@ export default function ContactList({
                 margin: "10px",
                 boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
                 borderRadius: "5px",
+                backgroundColor: 'white'
               }}
             >
               <Grid>
@@ -140,6 +147,9 @@ export default function ContactList({
                   padding: "5px",
                 }}
               >
+                <Button onClick={() => copyContact(contact)}>
+                  <ContentCopyIcon />
+                </Button>
                 <Button onClick={() => navigateToContact(contact._id)}>
                   <EditIcon />
                 </Button>

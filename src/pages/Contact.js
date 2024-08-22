@@ -8,12 +8,14 @@ import {
   CardContent,
   TextField,
   CardActions,
+  Autocomplete,
 } from "@mui/material";
 import contacts from "../mocks/contacts";
 import { useParams } from "react-router-dom";
 import { CreateContact, GetContact, UpdateContact } from '../apis/Contacts'
 import toast from 'react-hot-toast';
 import { LoadingButton } from "@mui/lab";
+import countryCodeList from 'country-codes-list'
 
 const Contact = ({ history }) => {
   const [loading, setLoading] = React.useState(false);
@@ -28,7 +30,7 @@ const Contact = ({ history }) => {
   const fetchContact = async (contactId) => {
     setLoading(true)
     const response = await GetContact({ contactId })
-    if (response.success) setContact(response.data.contact);
+    response.success ? setContact(response.data.contact) : window.location.href = '/contacts/create';
     setLoading(false)
   }
 
@@ -41,8 +43,12 @@ const Contact = ({ history }) => {
   }, []);
 
 
-  const handleChange = (e) => {
-    setContact({ ...contact, [e.target.name]: e.target.value });
+  const handleChange = (e, selectedCountry) => {
+    if (!selectedCountry){
+      setContact({ ...contact, [e.target.name]: e.target.value });
+    } else {
+      setContact({ ...contact, countryCode: selectedCountry.value });
+    }
   };
 
   const handleSubmit = async () => {
@@ -64,7 +70,7 @@ const Contact = ({ history }) => {
   };
 
   return (
-    <div className="">
+    <div className="contacts">
       <Grid>
         <Grid>
           <Card>
@@ -91,7 +97,21 @@ const Contact = ({ history }) => {
                   value={contact.lastName}
                   variant="outlined"
                 />
-                <TextField
+                  <Autocomplete
+                  autoComplete="off"
+                  fullWidth
+                  disablePortal
+                  label="Country Code"
+                  name="countryCode"
+                  style={{ marginTop: "1rem" }}
+                  isOptionEqualToValue={(option, value) => option.value === value}
+                  options={countryCodeList.all().map((country) => ({ label: `${country.flag} ${country.countryNameEn} (+${country.countryCallingCode})`, value: `+${country.countryCallingCode}` }))}
+                  onChange={handleChange}
+                  value={contact.countryCode}
+                  variant="outlined"
+                  renderInput={(params) => <TextField {...params} label="Country Code" />}
+                />
+                {/* <TextField
                   fullWidth
                   label="Country Code"
                   name="countryCode"
@@ -99,7 +119,7 @@ const Contact = ({ history }) => {
                   onChange={handleChange}
                   value={contact.countryCode}
                   variant="outlined"
-                />
+                /> */}
                 <TextField
                   fullWidth
                   label="Phone Number"

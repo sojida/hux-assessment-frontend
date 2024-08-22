@@ -1,4 +1,4 @@
-import HttpInstance from "./axios";
+import HttpInstance, { handleError } from "./axios";
 
 export const CreateContact = async ({
   firstName,
@@ -15,7 +15,7 @@ export const CreateContact = async ({
     });
     return response.data;
   } catch (error) {
-    return error.response.data;
+    return handleError(error)
   }
 };
 
@@ -35,7 +35,7 @@ export const UpdateContact = async ({
     });
     return response.data;
   } catch (error) {
-    return error.response.data;
+    return handleError(error)
   }
 };
 
@@ -44,7 +44,7 @@ export const DeleteContact = async ({ contactId }) => {
     const response = await HttpInstance.delete(`/api/v1/contacts/${contactId}`);
     return response.data;
   } catch (error) {
-    return error.response.data;
+    return handleError(error)
   }
 };
 
@@ -53,7 +53,7 @@ export const GetContact = async ({ contactId }) => {
     const response = await HttpInstance.get(`/api/v1/contacts/${contactId}`);
     return response.data;
   } catch (error) {
-    return error.response.data;
+    return handleError(error)
   }
 };
 
@@ -64,6 +64,7 @@ export const GetContacts = async ({ search = '', page = 1 }) => {
     );
     return response.data;
   } catch (error) {
-    return error.response.data;
+    console.log({ error })
+    return handleError(error)
   }
 };

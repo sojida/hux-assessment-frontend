@@ -15,8 +15,10 @@ const Contacts = (props) => {
   const fetchContacts = async (search = "", page = 1 ) => {
     setLoading(true)
     const response = await GetContacts({ search, page });
-    setContacts(response.data.contacts);
-    setMetaData(response.data.meta);
+    if (response.success) {
+      setContacts(response.data.contacts);
+      setMetaData(response.data.meta);
+    }
     setLoading(false)
   };
 
@@ -57,7 +59,7 @@ const Contacts = (props) => {
   }, []);
 
   return (
-    <Grid>
+    <Grid className="contact-page">
       <Grid>
         <form
           style={{
