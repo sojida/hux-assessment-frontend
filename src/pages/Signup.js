@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   Grid,
   Card,
   CardHeader,
@@ -10,12 +9,13 @@ import {
   CardActions,
 } from "@mui/material";
 import { Link } from 'react-router-dom'
+import toast from 'react-hot-toast';
+import { Signup } from '../apis/Auth'
+import { LoadingButton } from "@mui/lab";
 
-const Signup = (props) => {
-  const navigateToSignup = () => {
-    props.history.push(`/contacts`);
-  };
+const SignupPage = (props) => {
 
+  const [loading, setLoading] = React.useState(false)
   const [credentials, setCredentials] = React.useState({
     name: "",
     email: "",
@@ -26,8 +26,17 @@ const Signup = (props) => {
     setCredentials({...credentials, [e.target.name] : e.target.value });
   };
 
-  const handleSubmit = () => {
-    navigateToSignup();
+  const handleSubmit = async () => {
+    setLoading(true)
+    const res = await Signup(credentials)
+    
+    if (res.success) {
+      localStorage.setItem('token', res.data.token)
+      props.history.push('/contacts')
+    } else {
+      toast.error(res.message)
+      setLoading(false)
+    }
   };
 
   return (
@@ -69,13 +78,14 @@ const Signup = (props) => {
               </CardContent>
               <Divider />
               <CardActions>
-                <Button
+                <LoadingButton
+                  loading={loading}
                   onClick={handleSubmit}
                   color="success"
                   variant="outlined"
                 >
                   Signup
-                </Button>
+                </LoadingButton>
               <Link to="/login" >
                 Already have an account?
               </Link>
@@ -88,4 +98,4 @@ const Signup = (props) => {
   );
 };
 
-export default Signup;
+export default SignupPage;

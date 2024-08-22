@@ -9,6 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 const Topbar = (props) => {
   const navigateToLogin = () => {
+    localStorage.clear()
     props.history.push(`/login`);
   };
 

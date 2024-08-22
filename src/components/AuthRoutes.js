@@ -1,16 +1,16 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-const ProtectedRoute = props => {
-  const { layout: Layout, component: Component, ...rest } = props;
+const AuthRoute = props => {
+  const { component: Component, ...rest } = props;
   React.useEffect(() => {
     checkAuth()
   }, []);
 
   const checkAuth = () => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      window.location.href = '/';
+    if (token) {
+      window.location.href = '/contacts';
     }
   }
 
@@ -18,13 +18,11 @@ const ProtectedRoute = props => {
     <Route
       {...rest}
       render={matchProps => (
-        <Layout>
           <Component {...matchProps} />
-        </Layout>
       )}
     />
   );
 };
 
 
-export default ProtectedRoute;
+export default AuthRoute;

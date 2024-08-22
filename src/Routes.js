@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
+import AuthRoute from './components/AuthRoutes';
 import MainLayout from './components/MainLayout';
 import Homepage from './pages/Hompage';
 import Login from './pages/Login';
@@ -12,16 +13,16 @@ import ViewContact from './pages/ViewContact';
 
 const Router = () => {
   return (
-    <BrowserRouter>
+    <Switch>
         <Route path="/" exact component={Homepage} />
-        <Route path="/signup" exact component={Signup} />
-        <Route path="/login" exact component={Login} />
+        <AuthRoute path="/signup" exact component={Signup} />
+        <AuthRoute path="/login" exact component={Login} />
         <ProtectedRoute path="/contacts" exact component={Contacts} layout={MainLayout} />
         <ProtectedRoute path="/contacts/:contactId/edit" exact component={Contact} layout={MainLayout} />
         <ProtectedRoute path="/contacts/create" exact component={Contact} layout={MainLayout} />
         <ProtectedRoute path="/contacts/:contactId/view" exact component={ViewContact} layout={MainLayout} />
-        {/* <Route path="*" component={Signup} /> */}
-    </BrowserRouter>
+        <Redirect to="/not-found" />
+    </Switch>
   )
 }
 

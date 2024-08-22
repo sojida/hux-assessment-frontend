@@ -9,24 +9,34 @@ import {
   TextField,
   CardActions,
 } from "@mui/material";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Login } from "../apis/Auth";
+import { LoadingButton } from "@mui/lab";
 
-const Login = (props) => {
-  const navigateToSignup = () => {
-    props.history.push(`/signup`);
-  };
-
+const LoginPage = (props) => {
   const [credentials, setCredentials] = React.useState({
     email: "",
     password: "",
   });
 
+  const [loading, setLoading] = React.useState(false);
+
   const handleChange = (e) => {
-    setCredentials({...credentials, [e.target.name] : e.target.value });
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    navigateToSignup();
+  const handleSubmit = async () => {
+    setLoading(true);
+    const res = await Login(credentials);
+
+    if (res.success) {
+      localStorage.setItem("token", res.data.token);
+      props.history.push("/contacts");
+    } else {
+      toast.error(res.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,16 +69,15 @@ const Login = (props) => {
               </CardContent>
               <Divider />
               <CardActions>
-                <Button
+                <LoadingButton
+                  loading={loading}
                   onClick={handleSubmit}
                   color="success"
                   variant="outlined"
                 >
                   Login
-                </Button>
-              <Link to="/signup" >
-                Don't have an account yet?
-              </Link>
+                </LoadingButton>
+                <Link to="/signup">Don't have an account yet?</Link>
               </CardActions>
             </form>
           </Card>
@@ -78,4 +87,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default LoginPage;
