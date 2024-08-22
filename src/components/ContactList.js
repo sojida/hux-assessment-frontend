@@ -10,7 +10,6 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  Stack,
   Pagination,
   Grid,
   ListItemButton,
@@ -18,6 +17,7 @@ import {
   Button,
   Modal,
   Typography,
+  Tooltip
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
@@ -147,15 +147,21 @@ export default function ContactList({
                   padding: "5px",
                 }}
               >
-                <Button onClick={() => copyContact(contact)}>
-                  <ContentCopyIcon />
-                </Button>
+                <Tooltip title='Copy Phone Number' placement="top">
+                  <Button onClick={() => copyContact(contact)}>
+                    <ContentCopyIcon />
+                  </Button>
+                </Tooltip>
+                <Tooltip title='Edit Contact' placement="top">
                 <Button onClick={() => navigateToContact(contact._id)}>
                   <EditIcon />
                 </Button>
+                </Tooltip>
+                <Tooltip title='Delete Contact' placement="top">
                 <Button>
                   <DeleteIcon onClick={() => openModal(contact)} />
                 </Button>
+                </Tooltip>
               </Box>
             </List>
           );

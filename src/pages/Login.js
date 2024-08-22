@@ -44,7 +44,7 @@ const LoginPage = (props) => {
       <Grid>
         <Grid>
           <Card>
-            <form>
+            <form style={{ maxWidth: 300 }}>
               <CardHeader subheader="Welcome back!" title="Login" />
               <Divider />
               <CardContent>

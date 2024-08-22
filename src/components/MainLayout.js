@@ -4,8 +4,10 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import ListIcon from '@mui/icons-material/List';
+import { Tooltip } from "@mui/material";
+
 
 const Topbar = (props) => {
   const navigateToLogin = () => {
@@ -29,8 +31,16 @@ const Topbar = (props) => {
           <Typography onClick={navigateToLists} variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Kontactly
           </Typography>
-          <Button onClick={navigateToCreateContact} color="inherit">Create Contact</Button>
-          <Button onClick={navigateToLists} color="inherit">List</Button>
+          <Tooltip title='Create contact' placement="top">
+          <Button onClick={navigateToCreateContact} color="inherit">
+            <AddBoxIcon />
+          </Button>
+          </Tooltip>
+          <Tooltip title='Contact list' placement="top">
+          <Button onClick={navigateToLists} color="inherit">
+            <ListIcon />
+          </Button>
+          </Tooltip>
           <Button onClick={navigateToLogin} color="inherit">Logout</Button>
         </Toolbar>
       </AppBar>

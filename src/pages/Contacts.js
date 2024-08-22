@@ -37,7 +37,6 @@ const Contacts = (props) => {
   );
 
   const handleChange = (e) => {
-    setLoading(true)
     const text = e.target.value;
     setSearch(text);
     const url = new URL(window.location.href);

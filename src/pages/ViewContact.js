@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Grid, Box, Button } from "@mui/material";
+import { CardActionArea, Grid, Box, Button, Tooltip } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { GetContact, DeleteContact } from "../apis/Contacts";
 import EditIcon from "@mui/icons-material/Edit";
@@ -59,21 +59,21 @@ export default function ViewContact({ history }) {
   };
   return (
     <Grid className="view-contacts" style={{ display: "grid", placeItems: "center" }}>
-      {loading && <Typography align="center">Loading...</Typography>}
       {contact ? (
         <Card
-          sx={{
-            maxWidth: 345,
-            boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
-          }}
+        sx={{
+          maxWidth: 345,
+          boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
+        }}
         >
+          {loading && <Typography align="center">Loading...</Typography>}
           <DeleteModal
             open={open}
             handleClose={() => setOpen(false)}
             contact={contact}
             handleYes={handleYes}
             loading={loading}
-          />
+            />
           <CardActionArea>
             <CardMedia
               component="img"
@@ -98,15 +98,21 @@ export default function ViewContact({ history }) {
                 padding: "5px",
               }}
             >
-              <Button onClick={() => copyContact(contact)}>
-                  <ContentCopyIcon />
+              <Tooltip title='Copy Phone Number' placement="top">
+                  <Button onClick={() => copyContact(contact)}>
+                    <ContentCopyIcon />
+                  </Button>
+                </Tooltip>
+                <Tooltip title='Edit Contact' placement="top">
+                <Button onClick={() => navigateToContact(contact._id)}>
+                  <EditIcon />
                 </Button>
-              <Button onClick={() => navigateToContact(contact._id)}>
-                <EditIcon />
-              </Button>
+                </Tooltip>
+                <Tooltip title='Delete Contact' placement="top">
               <Button>
                 <DeleteIcon onClick={() => setOpen(true)} />
               </Button>
+                </Tooltip>
             </Box>
           </CardActionArea>
         </Card>
@@ -118,7 +124,7 @@ export default function ViewContact({ history }) {
             color="success"
             onClick={navigateToContactList}
           >
-            View Contact List
+            Back To Contact List
           </Button>
         </Box>
       )}

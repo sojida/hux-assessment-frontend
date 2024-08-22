@@ -44,8 +44,8 @@ const SignupPage = (props) => {
       <Grid>
         <Grid>
           <Card>
-            <form>
-              <CardHeader subheader="Welcome!" title="Signup" />
+          <form style={{ maxWidth: 300 }}>
+          <CardHeader subheader="Welcome!" title="Signup" />
               <Divider />
               <CardContent>
               <TextField
